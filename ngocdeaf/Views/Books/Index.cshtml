@@ -1,0 +1,112 @@
+﻿@model Ngocdeaf.Models.BookGenreView
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .text-center {
+        text-align: center;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 1em;
+    }
+
+    p {
+        margin-bottom: 0.5em;
+    }
+
+    a.btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 0.5em 1em;
+        border: 1px solid #ddd;
+        text-align: center; /* Added center align for all cells */
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .rounded-image {
+        border-radius: 50%;
+    }
+
+    tbody {
+        justify-content: center; /* Added justify-content: center */
+    }
+</style>
+
+<div class="text-center">
+    <h1>LIST OF BOOK</h1>
+</div>
+
+<form asp-controller="Books" asp-action="Index">
+    <form asp-controller="Movies" asp-action="Index" method="get">
+    <p>
+        <a asp-action="Create" class=" btn btn-sm btn-primary"> Add new</a>
+
+        <select asp-for="BookGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+            
+    </p>
+    </form>
+</form>
+<table class="table table-bordered" class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Genre</th>
+                    <th>Author</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+            </tr>
+        </thead>
+    <tbody>
+@foreach (var book in Model.Books) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => book.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => book.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => book.Genre.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => book.Author)
+            </td>
+            <td>
+                <img src="~/images/@Html.DisplayFor(model => book.ProfilePicture)" height="100" width="flex" />
+            </td>
+                <td>
+                   
+                    <form asp-action="Delete" asp-route-id="@book.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-primary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-primary">Edit</a>
+                    </form>
+                </td>
+         </tr>
+
+        }
+</table>

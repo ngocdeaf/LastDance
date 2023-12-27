@@ -1,0 +1,147 @@
+﻿<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .list-cart {
+        max-width: 1500px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .img-responsive {
+        max-width: 100%;
+        height: auto;
+    }
+
+    input[type="number"] {
+        width: 60px;
+        padding: 8px;
+    }
+
+    .cart-button {
+        display: inline-block;
+        padding: 10px 15px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    .delete-button {
+        margin-right: 5px;
+    }
+
+    .update-button {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .delete-button {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .checkout-button,
+    .continue-shopping-button {
+        display: inline-block;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #fff;
+        border-radius: 4px;
+        margin-top: 20px;
+    }
+
+    .checkout-button {
+        background-color: #28a745;
+    }
+
+    .continue-shopping-button {
+        background-color: #6c757d;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .total {
+        font-weight: bold;
+        text-align: right;
+    }
+
+</style>
+
+@{
+    ViewData["Title"] = "ListCart";
+}
+
+<h1>List Cart</h1>
+<div class="list-cart">
+    <form asp-controller="Carts" asp-action="updateCart" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.carts)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                var index = ViewBag.carts.IndexOf(item) + 1;
+                            } @index
+                        </td>
+                        <td>@item.Book.Name</td>
+                        <td><img src="~/images/@item.Book.ProfilePicture" class="rounded-image" height="100" width="100" /></td>
+                        <td>
+                            <input type="number" name="newBookquantity" data-book-id="@item.Book.Id" value="@item.Quantity" />
+                        </td>
+                        <td>@item.Book.Price</td>
+                        <td id="total@(item.Book.Id)">@(item.Book.Price * item.Quantity)</td>
+                        <td>
+                            <button type="submit" name="newBookid" value="@item.Book.Id" class="cart-button update-button">Update</button>
+                            <a asp-controller="Carts" asp-action="deleteCart" asp-route-id="@item.Book.Id" class="cart-button delete-button">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a asp-controller="Carts" asp-action="ConfirmOrder" class="checkout-button">Confirm Order</a>
+            <a asp-action="Index" asp-controller="Carts" class="continue-shopping-button">Continue Shopping</a>
+        </div>
+    </form>
+</div>

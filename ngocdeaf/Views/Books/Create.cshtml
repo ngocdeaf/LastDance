@@ -1,0 +1,147 @@
+﻿@model Ngocdeaf.Models.Book
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    /* Adjust overall form layout */
+    .card {
+        margin-top: 20px;
+    }
+
+    /* Style form labels */
+    .form-group label {
+        font-weight: bold;
+    }
+
+    /* Style form inputs and select */
+    .form-control {
+        margin-bottom: 10px;
+    }
+
+    /* Style validation error messages */
+    .text-danger {
+        display: block;
+        margin-top: 5px;
+        color: #dc3545;
+    }
+
+    /* Style file input */
+    .custom-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .custom-file-input {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        margin: 0;
+        opacity: 0;
+    }
+
+    .custom-file-label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+
+    /* Style submit button and "Back to List" link */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    /* Adjust spacing between buttons */
+    .form-group a {
+        margin-left: 10px;
+    }
+
+    /* Optional: Adjust card header style */
+    .card-header {
+        border-bottom: 2px solid #0056b3;
+    }
+</style>
+
+<h1>Create</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="col-md-10 mx-auto py-4">
+    <div class="card">
+        <div class="card-header bg-primary text-uppercase text-white">
+            <h4>Add New</h4>
+        </div>
+        <div class="card-body">
+            <form enctype="multipart/form-data" asp-action="Create">
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Author" class="control-label"></label>
+                        <input asp-for="Author" class="form-control" />
+                        <span asp-validation-for="Author" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="GenreId" class="control-label">Genre</label>
+                        <select asp-for="GenreId" class="form-control" asp-items="ViewBag.GenreId"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="ProfileImage" class="control-label">Book Image</label>
+                        <div class="custom-file">
+                            <input asp-for="ProfileImage" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile"></label>
+                        </div>
+                        <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="submit" class="btn btn-sm btn-primary rounded-0 text-uppercase" />
+                    <a asp-action="Index" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-fast-backward"></i> Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

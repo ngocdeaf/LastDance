@@ -1,0 +1,163 @@
+﻿@model Ngocdeaf.Models.Order
+<style>
+    .list-cart {
+        max-width: 1500px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    table {
+        width: 50%;
+        border-collapse: collapse;
+        margin-right: 20px;
+    }
+
+    form {
+        width: 50%;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+        form h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        form button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .img-responsive {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .cart-button {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    td.total-column {
+        text-align: center;
+    }
+
+    .total {
+        font-weight: bold;
+        text-align: right;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "ListCart";
+}
+
+<h1>Your Order</h1>
+
+<div class="list-cart">
+    <!-- Bảng giỏ hàng -->
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.carts)
+            {
+                string txt_class = "quantity_" + item.Book.Id;
+                double itemTotalPrice = item.Book.Price * item.Quantity;
+                <tr>
+                    <td>@item.Book.Name</td>
+                    <td><img src="~/images/@item.Book.ProfilePicture" class="img-responsive" height="100" width="100" /></td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Book.Price</td>
+                </tr>
+
+            }
+
+            <tr class="total">
+                <td colspan="3">Total</td>
+                <td class="price-column">
+                    @if (ViewBag.carts != null && ViewBag.carts.Count > 0)
+                    {
+                        int overallTotalPrice = 0;
+                        foreach (var item in ViewBag.carts)
+                        {
+                            overallTotalPrice += item.Book.Price * item.Quantity;
+                        }
+                        <p>@overallTotalPrice</p>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Form đơn hàng -->
+    <form asp-controller="Carts" asp-action="Confirm">
+        <h2>Order Information</h2>
+
+        <div class="form-group">
+            <label asp-for="FullName" class="control-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="cart-button checkout-button">Place Order</button>
+    </form>
+</div>

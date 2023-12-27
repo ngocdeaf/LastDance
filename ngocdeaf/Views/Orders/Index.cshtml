@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Ngocdeaf.Models.Order>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .text-center {
+        text-align: center;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 1em;
+        color: #333; /* Màu chữ đen */
+    }
+
+    p {
+        margin-bottom: 0.5em;
+        color: #555; /* Màu chữ xám đậm */
+    }
+
+    a.btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 0.5em 1em;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    th {
+        background-color: aliceblue; /* Màu nền xám nhạt cho header */
+    }
+
+    td {
+        background-color: #fff; /* Màu nền trắng cho ô dữ liệu */
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+        border-radius: 5px; /* Bo tròn góc cho ảnh */
+    }
+
+    .rounded-image {
+        border-radius: 50%;
+    }
+
+    tbody {
+        justify-content: center;
+    }
+
+    h1 {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+</style>
+
+<h1 class="text-center">
+    Customer's Orders
+</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Total Price
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-sm btn-primary rounded-0 text-uppercase">Back</a>
+</div>
